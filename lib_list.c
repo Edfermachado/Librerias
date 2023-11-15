@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "nodo.c"
 	 /*typedef struct NODE{
 		int info;
@@ -24,11 +25,21 @@
 	void insert_list(LIST *list, int item){
 		
 		NODE* new_node = (NODE *)malloc(sizeof(NODE));
+		NODE* aux = list->head;
 		new_node->info=item;
+		new_node->next=NULL;
 		//Insertar el nuevo nodo al principio de la lista
-		new_node->next = list->head->next;
-		list->head->next=new_node;
+		//new_node->next = list->head->next;
+		//list->head->next=new_node;
+		if(list->length == 0){
+		list->head->next = new_node;
+		}else{
+			while(aux->next!=NULL){
+				aux = aux->next;
+			}
+			aux->next = new_node;
 		
+			}
 		list->length++;
 	}
 	
@@ -63,12 +74,11 @@
 	NODE *current = list->head->next;// comenzar desde el primer nodo
 	while(current!=NULL){
 	printf("%d ", current->info);
-	printf("\n");
 	current = current->next;
 			    }
+		printf("\n");
 	}
 	int empty_list(LIST *list){
-		NODE *current = list->head->next;
 		if(list->length == 0){
 		return(1);
 		}else{return(0);
@@ -127,6 +137,7 @@
 			current = current->next;
 			}
 				}
+	//Me dice si el item se repite
 	int repeat_item_list(LIST *list, int item){
 		NODE *current = list->head->next;
 		int band = 0;
@@ -161,4 +172,120 @@
 			}
 	int length_list(LIST *list){
 			return(list->length);
+			}
+
+	void insert_last_list(LIST *list, int item){
+		
+		NODE* new_node = (NODE *)malloc(sizeof(NODE));
+		//NODE* aux = list->head;
+		new_node->info=item;
+		new_node->next=NULL;
+
+		new_node->next = list->head->next;
+		list->head->next=new_node;
+
+		list->length++;
+	}
+	void merge_list(LIST *result, LIST *list1, LIST *list2){
+			NODE *current1 = list1->head->next;
+			NODE *current2 = list2->head->next;
+			
+			while(current1 != NULL){
+				insert_list(result,current1->info);
+				current1 = current1->next;
+				}
+			while(current2 != NULL){
+				insert_list(result,current2->info);
+				current2 = current2->next;
+				}
+			}
+
+	void sort_up_list(LIST *list){
+				
+    NODE *current = list->head->next;  // Nodo actual
+    NODE *sorted = NULL;  // Nodo que representa la lista ordenada
+
+    while (current != NULL) {
+        NODE *next = current->next;  // Guarda el siguiente nodo antes de cambiar la referencia
+
+        // Si la lista ordenada está vacía o el elemento actual es menor al primero de la lista ordenada
+        if (sorted == NULL || current->info <= sorted->info) {
+            // Mueve el nodo actual al principio de la lista ordenada
+            current->next = sorted;
+            sorted = current;
+        } else {
+            // Busca la posición correcta en la lista ordenada e inserta el nodo actual
+            NODE *temp = sorted;
+            while (temp->next != NULL && temp->next->info < current->info) {
+                temp = temp->next;
+            }
+            current->next = temp->next;
+            temp->next = current;
+        }
+
+        current = next;  // Avanza al siguiente nodo en la lista original
+  
+    // Asigna la lista ordenada a la lista original
+    list->head->next = sorted;
+}
+ 			}
+void sort_down_list(LIST *list) {
+    NODE *current = list->head->next;  // Nodo actual
+    NODE *sorted = NULL;  // Nodo que representa la lista ordenada
+
+    while (current != NULL) {
+        NODE *next = current->next;  // Guarda el siguiente nodo antes de cambiar la referencia
+
+        // Si la lista ordenada está vacía o el elemento actual es mayor al primero de la lista ordenada
+        if (sorted == NULL || current->info >= sorted->info) {
+            // Mueve el nodo actual al principio de la lista ordenada
+            current->next = sorted;
+            sorted = current;
+        } else {
+            // Busca la posición correcta en la lista ordenada e inserta el nodo actual
+            NODE *temp = sorted;
+            while (temp->next != NULL && temp->next->info > current->info) {
+                temp = temp->next;
+            }
+            current->next = temp->next;
+            temp->next = current;
+        }
+
+        current = next;  // Avanza al siguiente nodo en la lista original
+    }
+
+    // Asigna la lista ordenada a la lista original
+    list->head->next = sorted;
+}
+	void swap_pos_list(LIST *list, int pos1, int pos2){
+			NODE *current1 = list->head->next;
+			NODE *current2 = list->head->next;
+				int i,j,aux,length;
+
+				length = list->length;
+				
+				if(pos1<=length && pos2<=length){
+				for(i=1;i<pos1;i++){
+					current1=current1->next;
+					}
+				aux = current1->info;
+					
+				for(j=1;j<pos2;j++){
+					current2=current2->next;
+					}
+				current1->info = current2->info;
+				current2->info = aux;
+				}
+
+					}
+	void mix_list(LIST *list){
+			int i, length, lower_bound, upper_bound;
+			length = list->length;
+			lower_bound = 1;
+			upper_bound = length;
+			srand(time(NULL));
+			for(i=1;i<length;i++){
+	swap_pos_list(list,(rand()%(upper_bound-lower_bound+1)+lower_bound),(rand()%(upper_bound-lower_bound+1)+lower_bound));
+				}
+			
 			}

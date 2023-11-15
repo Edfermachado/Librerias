@@ -8,6 +8,7 @@
 			int length;
 			struct NODE* top;
 			}PILA;
+
 	void create_p(PILA *pila);
 	void push_p(PILA *pila, int item);
 	int top_p(PILA *pila);

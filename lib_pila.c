@@ -26,7 +26,7 @@
 		if(pila->top != NULL){
 			return pila->top->info;
 			}else{
-			printf("La pila esta vacia\n");
+			return(-1);
 				}
 	}
 	int length_p(PILA *pila){

@@ -2,6 +2,7 @@
 #define LIB_LIST_H
 #include <stdio.h>
 #include <stdlib.h>
+#include "nodo.c"
 
 	/* typedef struct NODE{
 		int info;
@@ -26,5 +27,10 @@
 	int repeat_item_list(LIST *list, int item);
 	void remove_pos_item_list(LIST *list, int pos);
 	int length_list(LIST *list);
-
+	void insert_last_list(LIST *list, int item);
+	void merge_list(LIST *result, LIST *list1, LIST *list2);
+	void sort_up_list(LIST *list);
+	void sort_down_list(LIST *list);
+	void swap_pos_list(LIST *list, int pos1, int pos2);
+	void mix_list(LIST *list);
 #endif

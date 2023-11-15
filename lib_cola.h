@@ -19,4 +19,5 @@
 		int take_last_c(COLA *cola);
 		int take_first_c(COLA *cola);
 		void  dequeue_c(COLA *cola);
+		int length_c(COLA *cola);
 #endif
